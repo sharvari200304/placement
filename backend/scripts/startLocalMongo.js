@@ -3,10 +3,14 @@ import net from "net";
 import path from "path";
 import { spawn } from "child_process";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, "..", "..");
+const envPath = path.resolve(__dirname, "..", ".env");
+
+dotenv.config({ path: envPath });
 
 const host = "127.0.0.1";
 const port = 27017;
@@ -14,6 +18,12 @@ const dbPath = path.join(projectRoot, ".mongodb-data");
 const logPath = path.join(projectRoot, ".mongodb-log", "mongod.log");
 const defaultMongoBin = "C:\\Program Files\\MongoDB\\Server\\8.0\\bin\\mongod.exe";
 const mongoBin = process.env.MONGOD_BIN || defaultMongoBin;
+const mongoUri = process.env.MONGODB_URI || "";
+
+if (mongoUri && !mongoUri.includes("localhost") && !mongoUri.includes("127.0.0.1")) {
+  console.log("Remote MongoDB URI detected; skipping local MongoDB startup.");
+  process.exit(0);
+}
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
