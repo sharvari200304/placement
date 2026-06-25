@@ -47,6 +47,13 @@ app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
 
+app.use("/auth", authRoutes);
+app.use("/students", studentRoutes);
+app.use("/companies", companyRoutes);
+app.use("/jobs", jobRoutes);
+app.use("/applications", applicationRoutes);
+app.use("/admin", adminRoutes);
+
 app.use(notFound);
 app.use(errorHandler);
 
