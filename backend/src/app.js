@@ -36,6 +36,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300 }));
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Placement Portal API is running",
+    health: "/api/health"
+  });
+});
+
 app.get("/api/health", (req, res) => {
   res.json({ success: true, message: "API is healthy" });
 });
